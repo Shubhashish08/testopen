@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <h1>It is a page</h1>
+</body>
+<script src="https://unpkg.com/@isomorphic-git/lightning-fs"></script>
+<script src="https://unpkg.com/isomorphic-git@beta"></script>
+<script type="module">
+import http from 'https://unpkg.com/isomorphic-git@beta/http/web/index.js'
+// Initialize isomorphic-git with a file system
+window.fs = new LightningFS('fs')
+// I prefer using the Promisified version honestly
+window.pfs = window.fs.promises
+window.dir = '/tutorial'
+console.log(dir);
+//await pfs.mkdir(dir);
+console.log(fs);
+// Behold - it is empty!
+//await pfs.readdir(dir);
+//await git.log({dir})
+const b = await git.listRemotes({fs,dir})
+console.log(b)
+const a = await git.clone({
+  fs,
+  http,
+  dir,
+  corsProxy: 'https://cors.isomorphic-git.org',
+  url:"https://github.com/Shubhashish08/mynewrep.git", 
+  //url: 'https://github.com/isomorphic-git/isomorphic-git',
+  ref: 'main',
+  singleBranch: true,
+  force: true,
+  depth: 10
+});
+console.log(a)
+// Now it should not be empty...
+await pfs.readdir(dir);
+</script>
+</html>
